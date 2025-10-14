@@ -8,5 +8,3 @@ geom_mean = (a * b) ** 0.5
 
 print(arith_mean)
 print(geom_mean)
-
-
