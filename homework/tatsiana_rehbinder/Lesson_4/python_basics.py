@@ -6,7 +6,7 @@ my_dict = {
 }
 
 print(my_dict['tuple'][-1])
-# выведите на экран последний элемент
+#выведите на экран последний элемент
 
 my_dict['list'].append(30)
 #добавьте в конец списка еще один элемент
@@ -29,6 +29,3 @@ my_dict['set'].remove(100)
 print(my_dict.keys())
 print(my_dict.values())
 print(my_dict.items())
-
-#for key, value in my_dict.items():
-    #print(f"{key}: {value}")
