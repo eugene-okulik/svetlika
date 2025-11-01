@@ -1,5 +1,6 @@
 # task1
 import random
+import sys
 
 salary = int(input("Введите вашу зарплату: "))
 bonus = random.choice([True, False])
@@ -11,8 +12,6 @@ print(f"${salary}")
 print(f"Bonus applied: {bonus}")
 
 # task2
-import sys
-
 sys.set_int_max_str_digits(1_000_000)
 
 
