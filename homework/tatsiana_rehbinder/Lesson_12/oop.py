@@ -7,6 +7,7 @@ class Flower:
         self.life_time = life_time
 
     def __repr__(self):
+        return f"{self.color} {self.name} ({self.stem_length}, {self.price}, {self.life_time})"
 
 
 class Rose(Flower):
