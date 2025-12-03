@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, timedelta
 
 
@@ -19,7 +20,18 @@ actions = {
     "3": days_ago,
 }
 
-file_path = "C:/Users/USER/svetlika/homework/eugene_okulik/hw_13/data.txt"
+base_dir = os.path.dirname(os.path.abspath(__file__))
+
+homework_dir = os.path.abspath(os.path.join(base_dir, "..", ".."))
+
+file_path = os.path.join(
+    homework_dir,
+    "eugene_okulik",
+    "hw_13",
+    "data.txt"
+)
+
+print(file_path)
 
 with open(file_path, encoding="utf-8") as file:
     for line in file:
@@ -31,7 +43,6 @@ with open(file_path, encoding="utf-8") as file:
         dt_str, _ = rest.split(" - ", 1)
 
         dt = datetime.fromisoformat(dt_str.strip())
-
         result = actions[number](dt)
 
         print(result)
