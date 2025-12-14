@@ -1,0 +1,123 @@
+-- 1.Создайте студента (student)
+INSERT INTO students (name, second_name)
+VALUES ('Petr', 'Petrov')
+
+-- 1.1.Какой id у студента
+SELECT id 
+FROM students 
+WHERE name = 'Petr' AND second_name ='Petrov'
+
+-- 2.Создайте несколько книг (books) и укажите, что ваш созданный студент взял их
+INSERT INTO books (title, taken_by_student_id)
+VALUES 
+    ('Python projekte', 21889),
+    ('Powerful Python', 21889),
+    ('Der Weg zum Python-Profi', 21889)
+
+-- 3.Создайте группу (group) и определите своего студента туда
+INSERT INTO `groups` (title, start_date, end_date)
+VALUES ('Auto tester', '2025-10-01', '2026-02-01') 
+
+-- 3.1.Какой id у группы
+SELECT id
+FROM `groups`
+WHERE title = 'Auto tester'
+
+-- 3.2.Определяем студента в группу
+UPDATE students 
+SET group_id = 21663
+WHERE id = 21889
+
+-- 4.Создайте несколько учебных предметов (subjects)
+INSERT INTO subjects (title)
+VALUES 
+    ('Programming'),
+    ('Technology')
+    
+-- 4.1. Какой id у учебных предметов
+SELECT id, title
+FROM subjects 
+WHERE title IN ('Programming', 'Technology')
+
+-- 5.Создайте по два занятия для каждого предмета (lessons)
+INSERT INTO lessons (title, subject_id)
+VALUES 
+    ('Proga 1', 13240),
+    ('Proga 2', 13240),
+    ('Tech 1', 13241),
+    ('Tech 2', 13241)
+    
+-- 5.1.Какой id у занятий
+SELECT id, title, subject_id 
+FROM lessons  
+WHERE title IN ('Proga 1', 'Proga 2', 'Tech 1', 'Tech 2')
+
+-- 6.Поставьте своему студенту оценки (marks) для всех созданных вами занятий
+INSERT INTO marks (value, lesson_id, student_id)
+VALUES 
+    (5, 73875, 21889),
+    (5, 73876, 21889),
+    (5, 73877, 21889),
+    (5, 73878, 21889)
+    
+-- 7. Получить все оценки студента
+SELECT m.value, m.lesson_id
+FROM marks m
+WHERE m.student_id = 21889
+
+-- 8.Получить все книги, которые находятся у студента
+SELECT id, title
+FROM books
+WHERE taken_by_student_id = 21889
+
+-- 9.Для вашего студента выведите всё, что о нем есть в базе: 
+-- группа, книги, оценки с названиями занятий и предметов (всё одним запросом с использованием Join)
+SELECT
+    s.id,
+    s.name,
+    s.second_name,
+    g.title AS group_title,
+    b.title AS book_title,
+    m.value AS mark,
+    l.title AS lesson_title,
+    sub.title AS subject_title
+FROM students s
+LEFT JOIN `groups` g
+    ON s.group_id = g.id
+LEFT JOIN books b
+    ON b.taken_by_student_id = s.id
+LEFT JOIN marks m
+    ON m.student_id = s.id
+LEFT JOIN lessons l
+    ON m.lesson_id = l.id
+LEFT JOIN subjects sub
+    ON l.subject_id = sub.id
+WHERE s.id = 21889
+
+-- 9.1.Вывод карточки студента
+SELECT 
+    s.id AS student_id,
+    s.name,
+    s.second_name,
+    g.title AS group_title,
+    GROUP_CONCAT(DISTINCT b.title ORDER BY b.title SEPARATOR ', ') AS books,
+    GROUP_CONCAT(DISTINCT CONCAT(l.title, ' (', sub.title, ') — ', m.value) 
+                 ORDER BY l.title SEPARATOR '; ') AS lessons_with_marks
+FROM students s
+LEFT JOIN `groups` g ON s.group_id = g.id
+LEFT JOIN books b ON b.taken_by_student_id = s.id
+LEFT JOIN marks m ON m.student_id = s.id
+LEFT JOIN lessons l ON m.lesson_id = l.id
+LEFT JOIN subjects sub ON l.subject_id = sub.id
+WHERE s.id = 21889
+GROUP BY s.id, s.name, s.second_name, g.title
+
+
+
+
+
+    
+   
+    
+    
+    
