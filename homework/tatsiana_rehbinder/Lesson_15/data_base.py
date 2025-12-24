@@ -180,6 +180,3 @@ print(f"Lessons and marks: {student_card[5]}")
 
 cursor.close()
 db.close()
-
-
-
