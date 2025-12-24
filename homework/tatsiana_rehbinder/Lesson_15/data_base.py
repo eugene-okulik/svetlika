@@ -147,7 +147,7 @@ for (title,) in books:
 
 cursor.execute(
     """
-    SELECT 
+    SELECT
         s.id,
         s.name,
         s.second_name,
