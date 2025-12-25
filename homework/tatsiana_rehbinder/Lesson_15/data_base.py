@@ -27,20 +27,19 @@ books = [
     "Der Weg zum Python-Profi"
 ]
 
-book_ids = []
+books_data = [(title, student_id) for title in books]
 
-for title in books:
-    cursor.execute(
-        """
-        INSERT INTO books (title, taken_by_student_id)
-        VALUES (%s, %s)
-        """,
-        (title, student_id)
-    )
-    book_ids.append(cursor.lastrowid)
+cursor.executemany(
+    """
+    INSERT INTO books (title, taken_by_student_id)
+    VALUES (%s, %s)
+    """,
+    books_data
+)
 
 db.commit()
-print(f"Add books, id = {book_ids}")
+print("Books added")
+
 
 cursor.execute(
     """
@@ -104,17 +103,18 @@ for title, subject_id in lessons:
 db.commit()
 print(f"Add lessons, id = {lesson_ids}")
 
-for lesson_id in lesson_ids:
-    cursor.execute(
-        """
-        INSERT INTO marks (value, lesson_id, student_id)
-        VALUES (%s, %s, %s)
-        """,
-        (5, lesson_id, student_id)
-    )
+marks_data = [(5, lesson_id, student_id) for lesson_id in lesson_ids]
+
+cursor.executemany(
+    """
+    INSERT INTO marks (value, lesson_id, student_id)
+    VALUES (%s, %s, %s)
+    """,
+    marks_data
+)
 
 db.commit()
-print("Student marks  are set")
+print("Student marks are set")
 
 cursor.execute(
     """
